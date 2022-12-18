@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor() {
@@ -12,11 +13,15 @@ class Album extends Component {
     this.state = {
       songsTrack: [],
       verifyLoad: false,
+      newLoad: false,
+      favoriteSongs: [],
+      catchFavorites: true,
     };
   }
 
   componentDidMount() {
     this.loadMusicList();
+    this.fetchFavorites();
   }
 
   loadMusicList = () => {
@@ -33,15 +38,57 @@ class Album extends Component {
     });
   };
 
+  fetchFavorites = async () => {
+    this.setState({
+      catchFavorites: true,
+    }, async () => {
+      const getFav = await getFavoriteSongs();
+      console.log(getFav);
+      this.setState({
+        favoriteSongs: getFav,
+        catchFavorites: false,
+      });
+    });
+  };
+
+  addFavorite = async ({ target }) => {
+    const { songsTrack } = this.state;
+    const [, ...list] = songsTrack;
+    const track = list.find((song) => song.trackId === Number(target.name));
+    const check = target.checked;
+
+    if (check) {
+      this.setState({
+        newLoad: true,
+      }, async () => {
+        await addSong(track);
+        this.setState({
+          newLoad: false,
+        });
+      });
+    } else {
+      this.setState({
+        newLoad: true,
+      }, async () => {
+        await removeSong(track);
+        this.setState({
+          newLoad: false,
+        });
+      });
+    }
+  };
+
   render() {
-    const { songsTrack, verifyLoad } = this.state;
+    const { songsTrack, verifyLoad, newLoad, catchFavorites, favoriteSongs } = this.state;
     const [albumDetails, ...listTracks] = songsTrack;
-    console.log(albumDetails);
     return (
       <div data-testid="page-album">
         <Header />
         {
           verifyLoad && <Loading />
+        }
+        {
+          catchFavorites && <Loading />
         }
         <div>
           { albumDetails && (
@@ -60,7 +107,15 @@ class Album extends Component {
           )}
 
         </div>
-        {listTracks.map((tracks) => <MusicCard { ...tracks } key={ tracks.trackId } />) }
+        {
+          newLoad && <Loading />
+        }
+        {listTracks.map((tracks) => (<MusicCard
+          { ...tracks }
+          key={ tracks.trackId }
+          favorite={ favoriteSongs.some((song) => song.trackId === tracks.trackId) }
+          addFavorite={ this.addFavorite }
+        />)) }
       </div>
     );
   }
