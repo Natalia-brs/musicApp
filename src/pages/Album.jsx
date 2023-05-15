@@ -105,15 +105,13 @@ class Album extends Component {
   render() {
     const { songsTrack, verifyLoad, newLoad, catchFavorites, favoriteSongs } = this.state;
     const [albumDetails, ...listTracks] = songsTrack;
-
     /* controla o loading das musicas favoritas através da função  fetchFavorites */
     if (catchFavorites) return <Loading />;
-
     return (
-      <div data-testid="page-album">
-
+      <div
+        data-testid="page-album"
+      >
         <Header />
-
         {/* controla o loading das musicas obtidas pela api através da função loadMusicList */}
         {verifyLoad && <Loading />}
 
@@ -121,33 +119,45 @@ class Album extends Component {
           {
             albumDetails
           && (
-            <div>
+            <div className="grid justify-items-center gap-3 font-poppins">
               <span data-testid="artist-name">
                 Artista:
+                { ' ' }
                 {albumDetails.artistName}
-                {' '}
               </span>
+              <img
+                className="w-32 rounded-md"
+                src={ albumDetails.artworkUrl100 }
+                alt={ albumDetails.artworkUrl100 }
+              />
               <span data-testid="album-name">
                 Album:
+                { ' ' }
                 {albumDetails.collectionName}
-                {' '}
               </span>
 
               {/* controla o loading quando adiciona ou remove uma musica favorita através das função addFavorite  */}
               {newLoad && <Loading />}
-
-              {listTracks.map((tracks) => (
-                <MusicCard
-                  { ...tracks }
-                  key={ tracks.trackId }
-                  // favorite -> props armazena um boll, true caso a mesma ja tenha sido favoritada, será utilizada no componente MusicCard
-                  favorite={ favoriteSongs.some(
-                    (music) => music.trackId === tracks.trackId,
-                  ) }
-                  // função que sera utilizada no onChange no componente MusicCard
-                  addFavorite={ this.addFavorite }
-                />
-              ))}
+              <div
+                className="grid grid-cols-2
+              justify-items-center auto-cols-fr
+              gap-9 border rounded px-3 text-gray-800
+              font-poppins mb-11
+              bg-gray-100 "
+              >
+                {listTracks.map((tracks) => (
+                  <MusicCard
+                    { ...tracks }
+                    key={ tracks.trackId }
+                    // favorite -> props armazena um boll, true caso a mesma ja tenha sido favoritada, será utilizada no componente MusicCard
+                    favorite={ favoriteSongs.some(
+                      (music) => music.trackId === tracks.trackId,
+                    ) }
+                    // função que sera utilizada no onChange no componente MusicCard
+                    addFavorite={ this.addFavorite }
+                  />
+                ))}
+              </div>
             </div>)
           }
         </div>

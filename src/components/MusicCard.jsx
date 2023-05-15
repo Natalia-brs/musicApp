@@ -31,15 +31,46 @@ class MusicCard extends Component {
       addFavorite,
       trackId,
       previewUrl,
-      trackName } = this.props;
-
+      trackName,
+    } = this.props;
     const { favoritesInput } = this.state;
-
     return (
       <div>
-        <div>
-          <h4>{ trackName }</h4>
-          <audio data-testid="audio-component" src={ previewUrl } controls>
+        <h4 className=" text-center mt-4">{ trackName }</h4>
+        <div
+          className="text-justify grid grid-cols-2 justify-items-center auto-cols-fr
+        bg-red-lightest shadow-lg rounded-lg bg-gray-300 mb-2.5"
+        >
+          <div>
+            <span>
+              Favorita
+            </span>
+            <label
+              className="grid "
+              htmlFor="favorites"
+            >
+              <input
+                data-testid={ `checkbox-music-${trackId}` }
+                type="checkbox"
+                id="favorites"
+                // true or false, dependendo do valor armazenado no estado co componente
+                checked={ favoritesInput }
+                // name ->  armazena o id da musica que será utilizado na função addFavorite do componente Album
+                name={ trackId }
+                // addFavorite -> recebe a função addFavorite do componente Album responsável por adicionar ou remover musica favorita
+                onChange={ addFavorite }
+                // atualiza o estado da musica favorita conforme o checked
+                onClick={ this.handleChecked }
+              />
+
+            </label>
+          </div>
+          <audio
+            className="pt-3 pl-3 pr-3 pb-3"
+            data-testid="audio-component"
+            src={ previewUrl }
+            controls
+          >
             <track kind="captions" />
             O seu navegador não suporta o elemento
             {' '}
@@ -47,22 +78,6 @@ class MusicCard extends Component {
             <code>audio</code>
             .
           </audio>
-          <label htmlFor="favorites">
-            Favorita
-            <input
-              data-testid={ `checkbox-music-${trackId}` }
-              type="checkbox"
-              id="favorites"
-              // true or false, dependendo do valor armazenado no estado co componente
-              checked={ favoritesInput }
-              // name ->  armazena o id da musica que será utilizado na função addFavorite do componente Album
-              name={ trackId }
-              // addFavorite -> recebe a função addFavorite do componente Album responsável por adicionar ou remover musica favorita
-              onChange={ addFavorite }
-              // atualiza o estado da musica favorita conforme o checked
-              onClick={ this.handleChecked }
-            />
-          </label>
         </div>
       </div>
     );

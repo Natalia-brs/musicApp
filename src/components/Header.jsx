@@ -29,20 +29,36 @@ class Header extends Component {
 
     if (RenderLoad) return <Loading />;
     return (
-      <header data-testid="header-component">
-        <h1 data-testid="header-user-name">
-          {' '}
-          { name }
-        </h1>
-        <Link to="/search" data-testid="link-to-search">
-          Pesquisar
-        </Link>
-        <Link to="/favorites" data-testid="link-to-favorites">
-          Musicas Favoritas
-        </Link>
-        <Link to="/profile" data-testid="link-to-profile">
-          Perfil do Usuario
-        </Link>
+      <header
+        className="flex justify-center items-center"
+        data-testid="header-component"
+      >
+        <div
+          className=" bg-white w-1/2 shadow-2xl
+        rounded px-8 pt-6 pb-8 mb-4 text-center"
+        >
+          <h1
+            className="italic text-xl  font-poppins"
+            data-testid="header-user-name"
+          >
+            Usuario:
+            { ' ' }
+            { name }
+          </h1>
+
+          <div className="p-4 ">
+            <Link
+              className="-m-1.5"
+              to="/search"
+              data-testid="link-to-search"
+            >
+              <span className="m-4">Pesquisar</span>
+            </Link>
+            <Link to="/favorites" data-testid="link-to-favorites">
+              <span className="m-4">Musicas Favoritas</span>
+            </Link>
+          </div>
+        </div>
       </header>
     );
   }
