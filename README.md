@@ -1,5 +1,5 @@
 # Music App
-Utilizando o conceito de classes, projeto desenvolvido utilizando a API da Aplle music e props, onde podemos procurar o artista desejado e listar todos os seus albuns com suas musicas, alem de adicionar as favoritas. é possivel escutar uma intro da musica por um player de audio renderizado na tela.
+Utilizando o conceito de classes, projeto desenvolvido utilizando a API da Apple music e props, onde podemos procurar o artista desejado e listar todos os seus albuns com suas musicas, alem de adicionar as favoritas. é possivel escutar uma intro da musica por um player de audio renderizado na tela.
 Neste projeto os conceitos de rota utilizando o react e tambem manipulação do estado atraves de props.
 
 
